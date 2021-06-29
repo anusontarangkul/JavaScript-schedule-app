@@ -39,4 +39,16 @@ $(document).ready(function () {
             }
         }
     }
+
+    $(".saveBtn").click(function () {
+        let savedValue = $(this).parent().children('.description').val().trim();
+        let savedTime = $(this).parent().children(".hour").text();
+
+        if (savedValue !== "") {
+            $(this).parent().children('.description').val("");
+            localStorage.setItem(savedTime, savedValue)
+
+        }
+
+    })
 })
