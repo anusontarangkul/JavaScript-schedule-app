@@ -24,11 +24,10 @@ $(document).ready(function () {
     // update color based on time
     updateColor();
     setInterval(updateColor, 60000 * 60)
-
+    loadTask();
     // Add class for color depending on time
     function updateColor() {
         for (let i = 0; i < businessHours.length; i++) {
-            // console.log(moment(businessHours[i], "H A"))
             let currentHour = moment(businessHours[i], "H A")
             if (moment().isSame(currentHour, 'hour')) {
                 $(`#${businessHours[i]}`).addClass("present")
@@ -41,14 +40,23 @@ $(document).ready(function () {
     }
 
     $(".saveBtn").click(function () {
+        // get value by going up to parent and down a children
         let savedValue = $(this).parent().children('.description').val().trim();
         let savedTime = $(this).parent().children(".hour").text();
 
-        if (savedValue !== "") {
-            $(this).parent().children('.description').val("");
-            localStorage.setItem(savedTime, savedValue)
-
-        }
+        // save value to local storage
+        $(this).parent().children('.description').val("");
+        localStorage.setItem(savedTime, savedValue)
 
     })
+
+    function loadTask() {
+        for (let i = 0; i < businessHours.length; i++) {
+            // get the key of each time from local storage and update description
+            let eachTask = localStorage.getItem(businessHours[i])
+            $(`#${businessHours[i]}`).text(eachTask)
+        }
+    }
+
 })
+
